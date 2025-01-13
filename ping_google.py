@@ -1,20 +1,14 @@
-# this scrip pings google.com and returns
 import datetime
 import time
-import winsound
 import requests
-
+from playsound import playsound
 
 def ping_google(connected=True, lost_pings=0, alert_played=False):
-    freq = 600
-    dur = 500
     try:
         requests.get('http://www.google.com', timeout=5)
         if not connected:
             print("Internet connection re-established at\t\t\t", datetime.datetime.now(), '\n')
-            winsound.Beep(freq - 200, dur)
-            winsound.Beep(freq - 100, dur)
-            winsound.Beep(freq, dur)
+            playsound('alert_sound.mp3')
         connected = True
         time.sleep(20)
         ping_google(connected)
@@ -22,11 +16,7 @@ def ping_google(connected=True, lost_pings=0, alert_played=False):
         if connected:
             print("Lost internet connection, attempting to reconnect at", datetime.datetime.now())
         if lost_pings > 1 and not alert_played:
-
-            winsound.Beep(freq, dur)
-            winsound.Beep(freq - 100, dur)
-            winsound.Beep(freq - 200, dur)
-
+            playsound('alert_sound.mp3')
             alert_played = True
         connected = False
         time.sleep(10)
